@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -14,16 +15,20 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        _moveInput.x = Input.GetAxisRaw("Horizontal");
+        _moveInput.z = Input.GetAxisRaw("Vertical");
+    }
+
+    private void FixedUpdate()
+    {
         Movement();
     }
 
     void Movement()
     {
-        _moveInput.x = Input.GetAxis("Horizontal");
-        _moveInput.z = Input.GetAxis("Vertical");
-
-        //transform.position = transform.position + new Vector3(_moveInput.x * _moveSpeed * Time.deltaTime, 0,_moveInput.z * _moveSpeed * Time.deltaTime);
-        _rigidbody.velocity = _moveInput.normalized * _moveSpeed * Time.deltaTime;
+        //transform.position = transform.position + _moveInput.normalized * _moveSpeed * Time.deltaTime;
+        //_rigidbody.velocity = _moveInput.normalized * _moveSpeed * Time.deltaTime;
+        _rigidbody.MovePosition(_rigidbody.position + _moveInput.normalized * _moveSpeed * Time.deltaTime);
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
