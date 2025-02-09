@@ -5,41 +5,38 @@ using System.Linq;
 
 public class Craft : MonoBehaviour
 {
-    public Inventory _inventory;
-
+    Inventory _inventory;
+    public List<Item> _craftableItems;
 
     void Start()
     {
+        _inventory = GetComponent<Inventory>();
 
-        var materials = new Dictionary<string, (int current, int required)>
+        _craftableItems = new List<Item>
         {
-            { "Iron", (_inventory.Iron , 100)},
-            { "Copper" , (_inventory.Copper , 100) }
+            new Item("RocketFlame", new Dictionary<string, int>{ { "Iron", 10 }, { "Copper", 20 } }),
+            new Item("Rocket", new Dictionary<string, int>{ { "RocketFlame", 20 }, { "Iron", 20 } })
         };
 
     }
 
-    private void Update()
+    void Update()
     {
 
     }
 
-    public void CraftRoket(Dictionary<string, (int current, int required)> resources) 
+    public void CraftItem(string itemName)
     {
-        if (resources.Values.All(resources => resources.current >= resources.required))
+        Item item = _craftableItems.Find(i => i._name == itemName);
+        if(item != null && item.CanCraft(_inventory))
         {
-            //必要素材を減らす
-            _inventory.Iron -= resources["Iron"].required;
-            _inventory.Copper -= resources["Copper"].required;
-            //作成時間
-            //アイテム入手
-            _inventory.Roket += 1;
-            Debug.Log("ロケットを作りました");
+            item.Craft(_inventory);
+           //_inventory.AddItem(itemName, 1);
         }
         else
         {
-            Debug.Log("必要素材が足りません");
+            Debug.Log($"{itemName}を作るための素材がありません");
         }
-
     }
 }
+

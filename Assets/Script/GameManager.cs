@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    bool _isMenu = false;
-    bool _isCraftMenu = false;
     [SerializeField] GameObject _MenuPanel;
     [SerializeField] GameObject _CraftPanel;
 
@@ -22,13 +20,17 @@ public class GameManager : MonoBehaviour
 
     void ToggleMenu()
     {
-        _MenuPanel.SetActive(_isMenu);
-        _isMenu = !_isMenu;
+        if(_MenuPanel != null)
+        {
+            _MenuPanel.SetActive(!_MenuPanel.activeSelf);
+        }
     }
 
     public void ToggleCraftMenu()
     {
-        _CraftPanel.SetActive(_isCraftMenu);
-        _isCraftMenu = !_isCraftMenu;
+        if (_CraftPanel != null)
+        {
+            _CraftPanel.SetActive(!_CraftPanel.activeSelf);
+        }
     }
 }
