@@ -31,7 +31,8 @@ public class Craft : MonoBehaviour
         if(item != null && item.CanCraft(_inventory))
         {
             item.Craft(_inventory);
-           //_inventory.AddItem(itemName, 1);
+            _inventory.AddItem(itemName, 1);
+            PlayerSoundManager.instance.PlayGetItemSound();
         }
         else
         {

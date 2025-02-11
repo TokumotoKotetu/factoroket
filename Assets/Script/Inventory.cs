@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
         {
             AddItem("Iron",100);
             AddItem("Copper", 100);
-            AddItem("RocketFlame", 100);
+            //AddItem("RocketFlame", 100);
         }
     }
 
@@ -52,6 +52,7 @@ public class Inventory : MonoBehaviour
             default: Debug.LogWarning("éwíËÇ≥ÇÍÇΩëfçﬁÇ™Ç†ÇËÇ‹ÇπÇÒ"); break;
         }
         Debug.Log($"{resource}Çí«â¡:{amount} åªç›ÇÃ{resource}:{GetResourceAmount(resource)}");
+        //PlayerSoundManager.instance.PlayGetItemSound();
     }
 
 

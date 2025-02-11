@@ -68,6 +68,7 @@ public class Ore : MonoBehaviour
             {
                 _playerInventory.AddItem(_materialName, _amount);
                 Debug.Log($"{_materialName}‚ğÌŒ@:{_amount}(Œ»İ:{_playerInventory.GetResourceAmount(_materialName)})");
+                PlayerSoundManager.instance.PlayOreMineSound();
             }
         }
         _miningCoroutine = null;

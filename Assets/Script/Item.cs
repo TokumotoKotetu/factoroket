@@ -29,7 +29,6 @@ public class Item
         {
             inventory.UseResource(material.Key, material.Value); 
         }
-        inventory.AddItem(_name, 1);
         Debug.Log($"{_name}‚ğì¬‚µ‚Ü‚µ‚½");
     }
 }
