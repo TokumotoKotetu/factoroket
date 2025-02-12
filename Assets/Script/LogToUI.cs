@@ -36,4 +36,14 @@ public class LogToUI : MonoBehaviour
         Debug.Log(message);
         ShowLog(message);
     }
+
+    public void ShowWarningLog(string message)
+    {
+        Debug.LogWarning(message);  // コンソールにも警告として表示
+        _accumulatedLogs += $"<color=red>{message}</color>\n";  // 赤色でメッセージを追加
+        _debugText.text = _accumulatedLogs;
+
+        Canvas.ForceUpdateCanvases();  // UIの更新を強制
+        _scrollRect.verticalNormalizedPosition = 0f;  // スクロール位置をトップに設定
+    }
 }

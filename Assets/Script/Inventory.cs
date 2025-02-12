@@ -14,6 +14,64 @@ public class Inventory : MonoBehaviour
     int _miningUpgrade;
     int _autoMiner;
 
+    // リソースを保存する
+    public void SaveResources()
+    {
+        PlayerPrefs.SetInt("Iron", _iron);
+        PlayerPrefs.SetInt("Copper", _copper);
+        PlayerPrefs.SetInt("RocketFlame", _rocketFlame);
+        PlayerPrefs.SetInt("Rocket", _rocket);
+        PlayerPrefs.SetInt("CopperWire", _copperWire);
+        PlayerPrefs.SetInt("IronGearWheel", _ironGearWheel);
+        PlayerPrefs.SetInt("CircuitBoard", _circuitBoard);
+        PlayerPrefs.SetInt("UpgradeParts", _upgradeParts);
+        PlayerPrefs.SetInt("MiningUpgrade", _miningUpgrade);
+        PlayerPrefs.SetInt("AutoMiner", _autoMiner);
+
+        // 保存した内容をすぐに適用
+        PlayerPrefs.Save();
+
+        LogToUI.Instance.ShowDebugLog($"リソースがセーブされました。現在の状態: " +
+              $"Iron: {_iron}, Copper: {_copper}, RocketFlame: {_rocketFlame}, Rocket: {_rocket}, " +
+              $"CopperWire: {_copperWire}, IronGearWheel: {_ironGearWheel}, CircuitBoard: {_circuitBoard}, " +
+              $"UpgradeParts: {_upgradeParts}, MiningUpgrade: {_miningUpgrade}, AutoMiner: {_autoMiner}");
+    }
+
+    // リソースを読み込む
+    public void LoadResources()
+    {
+        _iron = PlayerPrefs.GetInt("Iron", 0);  // デフォルト値0
+        _copper = PlayerPrefs.GetInt("Copper", 0);
+        _rocketFlame = PlayerPrefs.GetInt("RocketFlame", 0);
+        _rocket = PlayerPrefs.GetInt("Rocket", 0);
+        _copperWire = PlayerPrefs.GetInt("CopperWire", 0);
+        _ironGearWheel = PlayerPrefs.GetInt("IronGearWheel", 0);
+        _circuitBoard = PlayerPrefs.GetInt("CircuitBoard", 0);
+        _upgradeParts = PlayerPrefs.GetInt("UpgradeParts", 0);
+        _miningUpgrade = PlayerPrefs.GetInt("MiningUpgrade", 0);
+        _autoMiner = PlayerPrefs.GetInt("AutoMiner", 0);
+
+        LogToUI.Instance.ShowDebugLog($"リソースがロードされました。現在の状態: " +
+              $"Iron: {_iron}, Copper: {_copper}, RocketFlame: {_rocketFlame}, Rocket: {_rocket}, " +
+              $"CopperWire: {_copperWire}, IronGearWheel: {_ironGearWheel}, CircuitBoard: {_circuitBoard}, " +
+              $"UpgradeParts: {_upgradeParts}, MiningUpgrade: {_miningUpgrade}, AutoMiner: {_autoMiner}");
+
+        if (_iron == 0 && _copper == 0 && _rocketFlame == 0 && _rocket == 0 &&
+    _copperWire == 0 && _ironGearWheel == 0 && _circuitBoard == 0 &&
+    _upgradeParts == 0 && _miningUpgrade == 0 && _autoMiner == 0)
+        {
+            LogToUI.Instance.ShowWarningLog("セーブデータが見つかりませんでした。新規のデータがロードされました。");
+        }
+    }
+
+    public void DeleteAllPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+
+        LogToUI.Instance.ShowWarningLog("データが削除されました");
+        LoadResources();
+    }
+
     public int Iron
     {
         get { return _iron; }
@@ -72,6 +130,10 @@ public class Inventory : MonoBehaviour
         get { return _autoMiner; }
         private set { _autoMiner = Mathf.Max(0, value); }
 
+    }
+    private void Start()
+    {
+        LoadResources();
     }
     private void Update()
     {

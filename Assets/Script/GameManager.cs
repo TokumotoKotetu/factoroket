@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _virtualCamera;
     [SerializeField] GameObject _gameClearPanel;
     [SerializeField] GameObject _upgradePanel;
+    [SerializeField] GameObject _optionPanel;
     Animator _anim;
     CinemachineVirtualCamera _cinemachine;
     public Inventory _inventory;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
         _craftPanel.SetActive(false);
         _gameClearPanel.SetActive(false);
         _upgradePanel.SetActive(false);
+        _optionPanel.SetActive(false);
         _cinemachine = _virtualCamera.GetComponent<CinemachineVirtualCamera>(); 
     }
     void Update()
@@ -46,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     public void ToggleMenu()
     {
-        if (_isGameCleared) return;
+        if (_isGameCleared || _optionPanel.activeSelf) return;
 
         PlayerSoundManager.instance.PlayPressButtonSound();
 
@@ -102,12 +104,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ToggleOptionPanel()
+    {
+        if (_isGameCleared) return;
+
+        PlayerSoundManager.instance.PlayPressButtonSound();
+
+        if (_optionPanel != null)
+        {
+            _optionPanel.SetActive(!_optionPanel.activeSelf);
+        }
+    }
+
     public void GameClear()
     {
         if (_isGameCleared) return;
         _isGameCleared = true;
 
         _menuPanel.SetActive(false);
+        _optionPanel.SetActive(false);
         var tmp = Instantiate(_rocket);
         _anim = tmp.GetComponent<Animator>();
         _anim.SetBool("BlLaunch", true);
@@ -121,5 +136,14 @@ public class GameManager : MonoBehaviour
     void ShowClearPanel()
     {
         _gameClearPanel.SetActive(true);
+    }
+
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
     }
 }
