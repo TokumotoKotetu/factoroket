@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("“S‚Ì”:" + _inventory.Iron + ",“º‚Ì”:" + _inventory.Copper);
+            LogToUI.Instance.ShowDebugLog("“S‚Ì”:" + _inventory.Iron + ",“º‚Ì”:" + _inventory.Copper);
         }
     }
 

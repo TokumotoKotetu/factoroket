@@ -59,7 +59,8 @@ public class Ore : MonoBehaviour
 
     IEnumerator MineOre()
     {
-        Debug.Log($"Mining{_materialName}");
+        LogToUI.Instance.ShowDebugLog($"Mining{_materialName}");
+        _amount = 1 + _playerInventory.MiningUpgrade;
         while(_isPlayerNearby )
         {
             yield return new WaitForSeconds( _miningInterval );
@@ -67,7 +68,7 @@ public class Ore : MonoBehaviour
             if(_isPlayerNearby && _playerInventory != null)
             {
                 _playerInventory.AddItem(_materialName, _amount);
-                Debug.Log($"{_materialName}ÇçÃå@:{_amount}(åªç›:{_playerInventory.GetResourceAmount(_materialName)})");
+                LogToUI.Instance.ShowDebugLog($"{_materialName}ÇçÃå@:{_amount}(åªç›:{_playerInventory.GetResourceAmount(_materialName)})");
                 PlayerSoundManager.instance.PlayOreMineSound();
             }
         }

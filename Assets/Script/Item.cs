@@ -29,6 +29,6 @@ public class Item
         {
             inventory.UseResource(material.Key, material.Value); 
         }
-        Debug.Log($"{_name}‚ğì¬‚µ‚Ü‚µ‚½");
+        LogToUI.Instance.ShowDebugLog($"{_name}‚ğì¬‚µ‚Ü‚µ‚½");
     }
 }

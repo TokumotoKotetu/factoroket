@@ -15,7 +15,13 @@ public class Craft : MonoBehaviour
         _craftableItems = new List<Item>
         {
             new Item("RocketFlame", new Dictionary<string, int>{ { "Iron", 10 }, { "Copper", 20 } }),
-            new Item("Rocket", new Dictionary<string, int>{ { "RocketFlame", 20 }, { "Iron", 20 } })
+            new Item("Rocket", new Dictionary<string, int>{ { "RocketFlame", 20 }, { "Iron", 20 } }),
+            new Item("CopperWire", new Dictionary<string, int> { { "Copper", 3} }),
+            new Item("CircuitBoard", new Dictionary<string, int>{{"CopperWire", 3}, { "Iron", 1} }),
+            new Item("UpgradeParts", new Dictionary<string, int> { { "CircuitBoard", 5 }, { "Iron", 10 }}),
+            new Item("MiningUpgrade", new Dictionary<string, int> {{"UpgradeParts", 5},{"CircuitBoard",5} }),
+            new Item("IronGearWheel", new Dictionary<string, int> {{"Iron", 2}}),
+            new Item("AutoMiner", new Dictionary<string, int>{ { "CircuitBoard", 5 },{"IronGearWheel", 3 },{"Iron", 10 } })
         };
 
     }
@@ -32,11 +38,12 @@ public class Craft : MonoBehaviour
         {
             item.Craft(_inventory);
             _inventory.AddItem(itemName, 1);
-            PlayerSoundManager.instance.PlayGetItemSound();
+            PlayerSoundManager.instance.PlayCraftSound();
         }
         else
         {
-            Debug.Log($"{itemName}ÇçÏÇÈÇΩÇﬂÇÃëfçﬁÇ™Ç†ÇËÇ‹ÇπÇÒ");
+            LogToUI.Instance.ShowDebugLog($"{itemName}ÇçÏÇÈÇΩÇﬂÇÃëfçﬁÇ™Ç†ÇËÇ‹ÇπÇÒ"); 
+            PlayerSoundManager.instance.PlayMissCraftSound();
         }
     }
 }

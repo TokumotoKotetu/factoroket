@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _rocket;
     [SerializeField] GameObject _virtualCamera;
     [SerializeField] GameObject _gameClearPanel;
+    [SerializeField] GameObject _upgradePanel;
     Animator _anim;
     CinemachineVirtualCamera _cinemachine;
     public Inventory _inventory;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
         _menuPanel.SetActive(false);
         _craftPanel.SetActive(false);
         _gameClearPanel.SetActive(false);
+        _upgradePanel.SetActive(false);
         _cinemachine = _virtualCamera.GetComponent<CinemachineVirtualCamera>(); 
     }
     void Update()
@@ -26,15 +28,27 @@ public class GameManager : MonoBehaviour
             ToggleMenu();
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ToggleCraftPanel();
+        }
+
+        if(Input.GetKeyDown(KeyCode.U)) 
+        { 
+            ToggleUpgradePanel();
+        }
+
         if (_inventory.Rocket > 0)
         {
             GameClear();
         }
     }
 
-    void ToggleMenu()
+    public void ToggleMenu()
     {
         if (_isGameCleared) return;
+
+        PlayerSoundManager.instance.PlayPressButtonSound();
 
         if(_menuPanel != null)
         {
@@ -42,13 +56,49 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ToggleCraftMenu()
+    public void ToggleCraftPanel()
     {
         if(_isGameCleared) return;
+
+        if (!_menuPanel.activeSelf)
+        {
+            ToggleMenu();
+        }
+
+        PlayerSoundManager.instance.PlayPressButtonSound();
 
         if (_craftPanel != null)
         {
             _craftPanel.SetActive(!_craftPanel.activeSelf);
+
+            if (_upgradePanel.activeSelf == true)
+            {
+                _upgradePanel.SetActive(false);
+            }
+        }
+
+
+    }
+
+    public void ToggleUpgradePanel()
+    {
+        if (_isGameCleared) return;
+
+        if (!_menuPanel.activeSelf)
+        {
+            ToggleMenu();
+        }
+
+        PlayerSoundManager.instance.PlayPressButtonSound();
+
+        if (_upgradePanel != null)
+        {
+            _upgradePanel.SetActive(!_upgradePanel.activeSelf);
+
+            if (_craftPanel.activeSelf == true)
+            {
+                _craftPanel.SetActive(false);
+            }
         }
     }
 
