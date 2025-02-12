@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
             ToggleUpgradePanel();
         }
 
+        if(Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            ToggleOptionPanel();
+        }
+
         if (_inventory.Rocket > 0)
         {
             GameClear();
